@@ -1,0 +1,9 @@
+.git
+.github
+node_modules
+npm-debug.log
+terraform
+docs
+README.md
+.env
+coverage

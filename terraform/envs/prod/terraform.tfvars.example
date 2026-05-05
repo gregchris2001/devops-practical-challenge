@@ -1,0 +1,23 @@
+aws_region  = "us-east-1"
+app_name    = "devops-practical-challenge"
+environment = "prod"
+image_tag   = "latest"
+
+vpc_cidr = "10.20.0.0/16"
+public_subnet_cidrs = [
+  "10.20.1.0/24",
+  "10.20.2.0/24"
+]
+private_subnet_cidrs = [
+  "10.20.11.0/24",
+  "10.20.12.0/24"
+]
+
+desired_count      = 2
+task_cpu           = 256
+task_memory        = 512
+log_retention_days = 14
+
+environment_variables = {
+  APP_ENV = "prod"
+}

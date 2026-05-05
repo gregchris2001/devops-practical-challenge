@@ -1,0 +1,14 @@
+{
+  "name": "devops-practical-challenge",
+  "version": "1.0.0",
+  "description": "Production-ready DevOps practical challenge sample service.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node test/server.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
