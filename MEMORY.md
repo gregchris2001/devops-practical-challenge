@@ -78,6 +78,28 @@ Bootstrap outputs:
 - `state_bucket_name`: `gregchris2001-devops-practical-challenge-tfstate`
 - `lock_table_name`: `devops-practical-challenge-tflock`
 
+Production deployment completed successfully.
+
+Production outputs:
+
+- `application_url`: `http://devops-practical-challen-alb-1130750772.us-east-1.elb.amazonaws.com`
+- `alb_dns_name`: `devops-practical-challen-alb-1130750772.us-east-1.elb.amazonaws.com`
+- `ecs_cluster_name`: `devops-practical-challenge-prod-cluster`
+- `ecs_service_name`: `devops-practical-challenge-prod-service`
+- `cloudwatch_log_group`: `/ecs/devops-practical-challenge-prod`
+- `ecr_repository_url`: `447170313897.dkr.ecr.us-east-1.amazonaws.com/devops-practical-challenge`
+
+Deployment verification:
+
+- ECS service status: `ACTIVE`.
+- ECS desired tasks: `2`.
+- ECS running tasks: `2`.
+- ECS deployment rollout: `COMPLETED`.
+- ALB state: `active`.
+- ALB scheme: `internet-facing`.
+- Target group health: both targets healthy.
+- Health endpoint returned HTTP `200 OK` at `/health`.
+
 ## Local Validation Notes
 
 Use these commands from the project directory:
