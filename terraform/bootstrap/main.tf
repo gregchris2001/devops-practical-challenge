@@ -195,6 +195,7 @@ data "aws_iam_policy_document" "github_actions_deploy" {
       "ec2:Describe*",
       "ec2:DetachInternetGateway",
       "ec2:DisassociateRouteTable",
+      "ec2:GetSecurityGroupsForVpc",
       "ec2:ModifySubnetAttribute",
       "ec2:ModifyVpcAttribute",
       "ec2:ReleaseAddress",
@@ -241,6 +242,7 @@ data "aws_iam_policy_document" "github_actions_deploy" {
       "ecs:DescribeClusters",
       "ecs:DescribeServices",
       "ecs:DescribeTaskDefinition",
+      "ecs:ListTagsForResource",
       "ecs:ListServices",
       "ecs:ListTaskDefinitions",
       "ecs:RegisterTaskDefinition",
@@ -254,12 +256,21 @@ data "aws_iam_policy_document" "github_actions_deploy" {
   }
 
   statement {
+    sid = "ReadCloudWatchLogGroups"
+
+    actions = [
+      "logs:DescribeLogGroups"
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
     sid = "ManageCloudWatchLogs"
 
     actions = [
       "logs:CreateLogGroup",
       "logs:DeleteLogGroup",
-      "logs:DescribeLogGroups",
       "logs:ListTagsForResource",
       "logs:PutRetentionPolicy",
       "logs:TagResource",
@@ -278,8 +289,11 @@ data "aws_iam_policy_document" "github_actions_deploy" {
       "application-autoscaling:DeleteScalingPolicy",
       "application-autoscaling:DeregisterScalableTarget",
       "application-autoscaling:Describe*",
+      "application-autoscaling:ListTagsForResource",
       "application-autoscaling:PutScalingPolicy",
-      "application-autoscaling:RegisterScalableTarget"
+      "application-autoscaling:RegisterScalableTarget",
+      "application-autoscaling:TagResource",
+      "application-autoscaling:UntagResource"
     ]
 
     resources = ["*"]
@@ -295,6 +309,7 @@ data "aws_iam_policy_document" "github_actions_deploy" {
       "iam:DetachRolePolicy",
       "iam:GetRole",
       "iam:ListAttachedRolePolicies",
+      "iam:ListRoleTags",
       "iam:ListRolePolicies",
       "iam:PassRole",
       "iam:TagRole",
