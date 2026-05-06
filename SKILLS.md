@@ -69,6 +69,16 @@ Check Terraform formatting:
 terraform -chdir=terraform/envs/prod fmt -check -recursive
 ```
 
+Create the one-time AWS bootstrap resources:
+
+```bash
+cp terraform/bootstrap/terraform.tfvars.example terraform/bootstrap/terraform.tfvars
+terraform -chdir=terraform/bootstrap init
+terraform -chdir=terraform/bootstrap plan
+terraform -chdir=terraform/bootstrap apply
+terraform -chdir=terraform/bootstrap output
+```
+
 Initialize Terraform with remote backend configuration:
 
 ```bash
@@ -85,6 +95,8 @@ terraform -chdir=terraform/envs/prod init \
 - Always verify the active Git branch before editing or committing.
 - Keep application, infrastructure, CI/CD, and documentation together so reviewers can understand the complete delivery path.
 - Use remote Terraform state for team workflows so infrastructure changes are tracked and locked safely.
+- Bootstrap shared Terraform backend resources before running application infrastructure.
+- Prefer custom IAM policies over `AdministratorAccess`; use the smallest practical permission set and document any wildcard permissions.
 - Run services in private subnets and expose them through a load balancer.
 - Use commit SHA image tags for repeatable deployments.
 - Store application logs in CloudWatch so containers can be replaced without losing logs.

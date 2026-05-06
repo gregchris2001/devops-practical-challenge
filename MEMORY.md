@@ -45,6 +45,37 @@ Before the GitHub Actions deployment can work, the AWS account needs:
 - GitHub secret `TF_LOCK_TABLE`.
 - GitHub repository variable `AWS_REGION`.
 
+These resources are now defined in `terraform/bootstrap`.
+
+Bootstrap command sequence:
+
+```bash
+aws configure
+cp terraform/bootstrap/terraform.tfvars.example terraform/bootstrap/terraform.tfvars
+terraform -chdir=terraform/bootstrap init
+terraform -chdir=terraform/bootstrap plan
+terraform -chdir=terraform/bootstrap apply
+terraform -chdir=terraform/bootstrap output
+```
+
+Current bootstrap assumption:
+
+- GitHub owner: `gregchris2001`.
+- GitHub repository: `devops-practical-challenge`.
+- Default AWS region: `us-east-1`.
+- The GitHub Actions deploy role uses a custom policy instead of `AdministratorAccess`.
+- The custom policy allows Terraform state access, ECR, VPC networking, ECS, ALB, CloudWatch Logs, Application Auto Scaling, and ECS task IAM roles.
+- Some permissions still use `Resource = "*"` because several AWS create/describe APIs require it.
+
+Bootstrap was applied successfully in AWS account `447170313897`.
+
+Bootstrap outputs:
+
+- `github_actions_role_arn`: `arn:aws:iam::447170313897:role/devops-practical-challenge-github-actions`
+- `github_actions_policy_arn`: `arn:aws:iam::447170313897:policy/devops-practical-challenge-github-actions-policy`
+- `state_bucket_name`: `gregchris2001-devops-practical-challenge-tfstate`
+- `lock_table_name`: `devops-practical-challenge-tflock`
+
 ## Local Validation Notes
 
 Use these commands from the project directory:
@@ -59,3 +90,5 @@ terraform -chdir=terraform/envs/prod fmt -check -recursive
 
 - Terraform was initially missing from Git Bash because the shell needed to be restarted after `winget install HashiCorp.Terraform`.
 - Git branch changes should always be verified with `git status --short --branch`; a command can print a misleading success message if a permission issue occurs.
+- AWS CLI was installed but not configured; `aws sts get-caller-identity` returned `Unable to locate credentials`.
+- Replaced `AdministratorAccess` on the GitHub Actions deploy role with a custom scoped policy. This is closer to normal AWS security practice.

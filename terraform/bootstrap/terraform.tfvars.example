@@ -1,0 +1,8 @@
+aws_region               = "us-east-1"
+state_bucket_name        = "gregchris2001-devops-practical-challenge-tfstate"
+lock_table_name          = "devops-practical-challenge-tflock"
+github_owner             = "gregchris2001"
+github_repository        = "devops-practical-challenge"
+application_name         = "devops-practical-challenge"
+environment              = "prod"
+github_actions_role_name = "devops-practical-challenge-github-actions"
