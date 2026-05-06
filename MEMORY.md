@@ -67,6 +67,15 @@ Current bootstrap assumption:
 - The custom policy allows Terraform state access, ECR, VPC networking, ECS, ALB, CloudWatch Logs, Application Auto Scaling, and ECS task IAM roles.
 - Some permissions still use `Resource = "*"` because several AWS create/describe APIs require it.
 
+Bootstrap was applied successfully in AWS account `447170313897`.
+
+Bootstrap outputs:
+
+- `github_actions_role_arn`: `arn:aws:iam::447170313897:role/devops-practical-challenge-github-actions`
+- `github_actions_policy_arn`: `arn:aws:iam::447170313897:policy/devops-practical-challenge-github-actions-policy`
+- `state_bucket_name`: `gregchris2001-devops-practical-challenge-tfstate`
+- `lock_table_name`: `devops-practical-challenge-tflock`
+
 ## Local Validation Notes
 
 Use these commands from the project directory:
