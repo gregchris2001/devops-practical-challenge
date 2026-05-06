@@ -40,6 +40,9 @@ fix:(docker) - correct container health check
 chore:(docs) - add project memory files
 ```
 
+- Commit messages must match the exact change that was made.
+- Pull Request titles and descriptions must also match the exact work included in the branch.
+- Avoid generic PR titles when the branch contains specific fixes or infrastructure changes.
 - When Pascal says `push`, `commit and push`, or `push commit and push`, stage relevant changes, commit, and push without asking for confirmation.
 
 ## Safety Rules

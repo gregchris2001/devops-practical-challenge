@@ -32,6 +32,8 @@
 - Do not delete files unless Pascal approves.
 - Do not modify secrets or credentials unless Pascal explicitly asks.
 - When Pascal asks to push or commit and push, do it directly without asking for confirmation, but never from a default branch.
+- Commit messages must match the actual change made.
+- Pull Request titles and descriptions must match the actual branch content, not use broad generic wording.
 
 ## Deployment Notes
 
