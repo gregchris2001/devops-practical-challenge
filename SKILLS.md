@@ -40,6 +40,9 @@ fix:(docker) - correct container health check
 chore:(docs) - add project memory files
 ```
 
+- Commit messages must match the exact change that was made.
+- Pull Request titles and descriptions must also match the exact work included in the branch.
+- Avoid generic PR titles when the branch contains specific fixes or infrastructure changes.
 - When Pascal says `push`, `commit and push`, or `push commit and push`, stage relevant changes, commit, and push without asking for confirmation.
 
 ## Safety Rules
@@ -97,6 +100,7 @@ terraform -chdir=terraform/envs/prod init \
 - Use remote Terraform state for team workflows so infrastructure changes are tracked and locked safely.
 - Bootstrap shared Terraform backend resources before running application infrastructure.
 - Prefer custom IAM policies over `AdministratorAccess`; use the smallest practical permission set and document any wildcard permissions.
+- Use Terraform variable validation only for the variable being validated; use resource preconditions when comparing multiple variables.
 - Run services in private subnets and expose them through a load balancer.
 - Use commit SHA image tags for repeatable deployments.
 - Store application logs in CloudWatch so containers can be replaced without losing logs.
