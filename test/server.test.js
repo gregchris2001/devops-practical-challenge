@@ -35,16 +35,17 @@ test('GET /health returns service health', async () => {
   }
 });
 
-test('GET / returns service metadata', async () => {
+test('GET / returns status page', async () => {
   const server = await startTestServer();
 
   try {
     const response = await fetch(`${server.baseUrl}/`);
-    const body = await response.json();
+    const body = await response.text();
 
     assert.equal(response.status, 200);
-    assert.equal(body.service, 'devops-practical-challenge');
-    assert.equal(body.message, 'Service is running');
+    assert.match(response.headers.get('content-type'), /^text\/html/);
+    assert.match(body, /DevOps Practical Challenge/);
+    assert.match(body, /Service is running/);
   } finally {
     await server.close();
   }
