@@ -153,6 +153,7 @@ data "aws_iam_policy_document" "github_actions_deploy" {
       "ecr:GetLifecyclePolicy",
       "ecr:InitiateLayerUpload",
       "ecr:ListImages",
+      "ecr:ListTagsForResource",
       "ecr:PutImage",
       "ecr:PutImageScanningConfiguration",
       "ecr:PutImageTagMutability",
