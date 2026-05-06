@@ -1,11 +1,22 @@
 'use strict';
 
 const http = require('node:http');
+const { renderHomePage } = require('./home-page');
 
 const startedAt = new Date();
 const version = process.env.APP_VERSION || 'local';
 const environment = process.env.APP_ENV || process.env.NODE_ENV || 'development';
 const port = Number(process.env.PORT || 3000);
+
+function writeHtml(res, statusCode, html) {
+  const body = Buffer.from(html, 'utf8');
+  res.writeHead(statusCode, {
+    'Content-Type': 'text/html; charset=utf-8',
+    'Content-Length': body.length,
+    'Cache-Control': 'no-store'
+  });
+  res.end(body);
+}
 
 function writeJson(res, statusCode, payload) {
   const body = JSON.stringify(payload);
@@ -45,13 +56,11 @@ function createServer() {
     }
 
     if (req.url === '/' || req.url === '/index.html') {
-      writeJson(res, 200, {
-        service: 'devops-practical-challenge',
-        message: 'Service is running',
-        version,
+      writeHtml(res, 200, renderHomePage({
         environment,
+        version,
         uptimeSeconds: Math.floor(process.uptime())
-      });
+      }));
       return;
     }
 
