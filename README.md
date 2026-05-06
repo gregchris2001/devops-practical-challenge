@@ -105,7 +105,45 @@ Create these before the first pipeline run:
 - A DynamoDB table for Terraform state locking.
 - A GitHub OIDC IAM role that the workflow can assume.
 
-The IAM role should allow the infrastructure actions needed to manage VPC, ECS, ECR, ALB, IAM roles for ECS tasks, CloudWatch Logs, Application Auto Scaling, and related resources. In a real organization this should be scoped to this repository, environment, region, and resource naming convention.
+This project includes Terraform for that bootstrap setup in `terraform/bootstrap`.
+
+First, configure AWS credentials locally:
+
+```bash
+aws configure
+```
+
+Then copy the example values:
+
+```bash
+cp terraform/bootstrap/terraform.tfvars.example terraform/bootstrap/terraform.tfvars
+```
+
+Edit `terraform/bootstrap/terraform.tfvars` if you need a different AWS region or bucket name. The S3 bucket name must be globally unique across all AWS accounts.
+
+Initialize and apply the bootstrap Terraform:
+
+```bash
+terraform -chdir=terraform/bootstrap init
+terraform -chdir=terraform/bootstrap plan
+terraform -chdir=terraform/bootstrap apply
+```
+
+After apply finishes, collect the outputs:
+
+```bash
+terraform -chdir=terraform/bootstrap output
+```
+
+The bootstrap creates:
+
+- S3 bucket for Terraform remote state.
+- DynamoDB table for Terraform state locking.
+- GitHub OIDC provider.
+- GitHub Actions IAM deploy role.
+- Custom IAM deploy policy scoped to the services this project needs.
+
+The included deploy role does not use `AdministratorAccess`. It uses a custom policy with permissions for Terraform state access, ECR image publishing, VPC networking, ECS Fargate, ALB, CloudWatch Logs, Application Auto Scaling, and ECS task IAM roles. Some AWS actions still require `Resource = "*"`, especially for account-level APIs and resources that do not exist before Terraform creates them.
 
 ### GitHub Configuration
 
@@ -178,5 +216,5 @@ terraform apply -var="aws_region=<aws-region>" -var="image_tag=<image-tag>"
 - Add CloudWatch alarms for ALB 5xx errors, target health, ECS CPU, memory, and task restarts.
 - Add vulnerability gating for ECR scan results.
 - Add separate `dev`, `staging`, and `prod` environments.
-- Add least-privilege IAM policy examples for the GitHub deployment role.
+- Tighten the GitHub deployment IAM policy further with organization-specific permission boundaries and resource naming controls.
 - Add blue/green deployments with CodeDeploy for stricter rollout control.
