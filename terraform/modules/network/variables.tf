@@ -21,9 +21,4 @@ variable "public_subnet_cidrs" {
 variable "private_subnet_cidrs" {
   description = "CIDR blocks for private subnets."
   type        = list(string)
-
-  validation {
-    condition     = length(var.private_subnet_cidrs) == length(var.public_subnet_cidrs)
-    error_message = "private_subnet_cidrs must contain the same number of entries as public_subnet_cidrs."
-  }
 }

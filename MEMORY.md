@@ -92,3 +92,4 @@ terraform -chdir=terraform/envs/prod fmt -check -recursive
 - Git branch changes should always be verified with `git status --short --branch`; a command can print a misleading success message if a permission issue occurs.
 - AWS CLI was installed but not configured; `aws sts get-caller-identity` returned `Unable to locate credentials`.
 - Replaced `AdministratorAccess` on the GitHub Actions deploy role with a custom scoped policy. This is closer to normal AWS security practice.
+- GitHub Actions `terraform init` failed because a variable validation in `terraform/modules/network/variables.tf` referenced another variable. Terraform variable validation can only reference itself. Fixed by moving the subnet-count comparison into a resource precondition in `terraform/modules/network/main.tf`.

@@ -3,8 +3,8 @@ data "aws_availability_zones" "available" {
 }
 
 locals {
-  name_prefix = "${var.app_name}-${var.environment}"
-  az_count    = length(var.public_subnet_cidrs)
+  name_prefix          = "${var.app_name}-${var.environment}"
+  subnet_count_matches = length(var.private_subnet_cidrs) == length(var.public_subnet_cidrs)
 }
 
 resource "aws_vpc" "this" {
@@ -14,6 +14,13 @@ resource "aws_vpc" "this" {
 
   tags = {
     Name = "${local.name_prefix}-vpc"
+  }
+
+  lifecycle {
+    precondition {
+      condition     = local.subnet_count_matches
+      error_message = "private_subnet_cidrs must contain the same number of entries as public_subnet_cidrs."
+    }
   }
 }
 
