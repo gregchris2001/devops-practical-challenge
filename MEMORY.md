@@ -100,6 +100,22 @@ Deployment verification:
 - Target group health: both targets healthy.
 - Health endpoint returned HTTP `200 OK` at `/health`.
 
+Environment cleanup completed after Damolak Technologies confirmed the environment could be destroyed.
+
+Cleanup results:
+
+- Production Terraform state is empty.
+- ECS cluster removed.
+- ECS service and tasks removed.
+- Application Load Balancer removed.
+- NAT Gateway deleted.
+- ECR repository and images removed.
+- CloudWatch application log group removed.
+- VPC, subnets, route tables, security groups, and internet gateway removed.
+- Bootstrap S3 state bucket removed.
+- Bootstrap DynamoDB lock table removed.
+- GitHub Actions OIDC provider, deploy role, and deploy policy removed.
+
 ## Local Validation Notes
 
 Use these commands from the project directory:
